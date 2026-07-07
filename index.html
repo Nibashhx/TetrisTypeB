@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tetris Type B</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="description" content="Tetris Type B con estetica Game Boy. Juega sin conexion.">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Tetris B">
+    <style>
+        /* Fuente incrustada (funciona sin conexion, sin depender de Google Fonts) */
+        @font-face {
+            font-family: 'Press Start 2P';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(data:font/woff2;base64,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) format('woff2');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            touch-action: manipulation;
+            height: 100%;
+            overflow: hidden;
+            background: #1a1a1a;
+            color: #0f380f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            padding: 10px;
+        }
+
+        .gameboy-console {
+            width: 100%;
+            max-width: 500px;
+            max-height: 95vh;
+            background: #a8a8a8;
+            border-radius: 15px 15px 50px 50px / 15px 15px 40px 40px;
+            box-shadow:
+                5px 5px 15px rgba(0,0,0,0.5),
+                inset -2px -2px 5px rgba(0,0,0,0.3),
+                inset 2px 2px 5px rgba(255,255,255,0.7);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .screen-area {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .screen-frame {
+            background: #8b956d;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow:
+                inset 2px 2px 8px rgba(0,0,0,0.7),
+                inset -2px -2px 5px rgba(255,255,255,0.3);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .game-board-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 10 / 20;
+            background-color: #9bbc0f;
+            border: 2px solid #0f380f;
+            box-shadow: inset 0 0 15px rgba(15, 56, 15, 0.5);
+            overflow: hidden;
+            container-type: inline-size;   /* permite escalar el menu al ancho real */
+        }
+
+        .game-board {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .board-cells {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: repeat(20, 1fr);
+            grid-template-columns: repeat(10, 1fr);
+        }
+
+        .cell {
+            border: 0.5px solid rgba(15, 56, 15, 0.2);
+        }
+
+        .tetromino {
+            border: 1px solid rgba(15, 56, 15, 0.4);
+            box-shadow: inset 0 0 3px rgba(15, 56, 15, 0.3);
+        }
+
+        /* Ghost piece: solo contorno del color, sin relleno */
+        .ghost {
+            background-color: transparent !important;
+            border: 1px dashed rgba(15, 56, 15, 0.55);
+            box-shadow: none;
+        }
+
+        /* Paleta de colores con alto contraste */
+        .I { background-color: #8bd8f0; } /* Cyan */
+        .J { background-color: #3f51f7; } /* Blue */
+        .L { background-color: #ffb86c; } /* Orange */
+        .O { background-color: #edd400; } /* Yellow */
+        .S { background-color: #a0e0a0; } /* Light Green */
+        .T { background-color: #c084fc; } /* Purple */
+        .Z { background-color: #ff6b6b; } /* Red */
+
+        .lcd-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image:
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.1) 3px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.1) 3px);
+            opacity: 0.3;
+        }
+
+        .nintendo-logo {
+            font-size: 0.7rem;
+            color: #555;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        .controls-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .info-panel {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .panel {
+            background: #7c7c7c;
+            border: 2px solid #555;
+            border-radius: 4px;
+            padding: 5px 8px;
+            box-shadow:
+                inset 1px 1px 3px rgba(0,0,0,0.5),
+                inset -1px -1px 3px rgba(255,255,255,0.5);
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .panel-title {
+            color: #333;
+            margin-bottom: 4px;
+            border-bottom: 1px solid #555;
+            padding-bottom: 2px;
+        }
+
+        .next-piece {
+            display: grid;
+            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            width: 50px;
+            height: 50px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+            gap: 6px;
+        }
+
+        .info-value {
+            color: #0f380f;
+            font-weight: bold;
+        }
+
+        .main-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .d-pad-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .d-pad-base {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #7c7c7c;
+            border-radius: 8px;
+            box-shadow:
+                inset 2px 2px 5px rgba(0,0,0,0.5),
+                inset -2px -2px 5px rgba(255,255,255,0.5);
+        }
+
+        .d-pad-btn {
+            position: absolute;
+            background: #555;
+            color: #aaa;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: manipulation;
+            transition: all 0.1s;
+            z-index: 2;
+        }
+        .d-pad-btn:active {
+            background: #333;
+            transform: scale(0.95);
+        }
+
+        #dpad-up {
+            top: 5px; left: 35px;
+            width: 50px; height: 30px;
+            border-radius: 6px 6px 0 0;
+        }
+        #dpad-down {
+            bottom: 5px; left: 35px;
+            width: 50px; height: 30px;
+            border-radius: 0 0 6px 6px;
+        }
+        #dpad-left {
+            top: 35px; left: 5px;
+            width: 30px; height: 50px;
+            border-radius: 6px 0 0 6px;
+        }
+        #dpad-right {
+            top: 35px; right: 5px;
+            width: 30px; height: 50px;
+            border-radius: 0 6px 6px 0;
+        }
+        #dpad-center {
+            top: 35px; left: 35px;
+            width: 50px; height: 50px;
+            background: #222;
+            border: none;
+            pointer-events: none;
+        }
+
+        .action-buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .gameboy-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #8b0000;
+            border: 2px solid #5a0000;
+            color: #ccc;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow:
+                2px 2px 5px rgba(0,0,0,0.5),
+                inset -1px -1px 3px rgba(0,0,0,0.7);
+            touch-action: manipulation;
+            transition: all 0.1s;
+        }
+        .gameboy-btn:active {
+            transform: translateY(2px);
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.5), inset 0 0 2px rgba(0,0,0,0.9);
+        }
+        #btn-rotate { align-self: flex-end; margin-right: 10px; }
+        #btn-rotate-counter { align-self: flex-start; margin-left: 10px; }
+
+        .system-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .system-btn {
+            background: #555;
+            color: #aaa;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 0.6rem;
+            font-weight: bold;
+            box-shadow:
+                inset 1px 1px 2px rgba(0,0,0,0.5),
+                inset -1px -1px 2px rgba(255,255,255,0.3);
+            touch-action: manipulation;
+        }
+        .system-btn:active {
+            background: #444;
+        }
+
+        /* Overlays (opciones, pausa, fin de juego) comparten el mismo look LCD */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 56, 15, 0.92);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            padding: 14px;              /* respaldo */
+            padding: 6cqw 5cqw;
+            color: #9bbc0f;
+            text-align: center;
+        }
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Tamanos en cqw (relativos al ancho del tablero) con respaldo en rem.
+           Asi el menu nunca se sale, sea cual sea el tamano de pantalla. */
+        .overlay-title {
+            font-size: 1rem;                    /* respaldo */
+            font-size: min(10cqw, 1.9rem);
+            margin-bottom: 5cqw;
+            letter-spacing: 1px;
+        }
+        .overlay-subtext {
+            font-size: 0.55rem;                 /* respaldo */
+            font-size: min(4cqw, 0.8rem);
+            line-height: 1.7;
+            margin-bottom: 4cqw;
+        }
+        .overlay-score {
+            font-size: 0.7rem;                  /* respaldo */
+            font-size: min(5.5cqw, 0.95rem);
+            margin-bottom: 5cqw;
+        }
+
+        /* Selectores tipo stepper para LEVEL y HIGH */
+        .selector-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3cqw;
+            width: 100%;
+            margin-bottom: 4.5cqw;
+        }
+        .selector-label {
+            font-size: 0.6rem;                  /* respaldo */
+            font-size: min(4.5cqw, 0.8rem);
+        }
+        .stepper {
+            display: flex;
+            align-items: center;
+            gap: 3cqw;
+        }
+        .stepper-btn {
+            background: #0f380f;
+            color: #9bbc0f;
+            border: 1px solid #9bbc0f;
+            border-radius: 4px;
+            width: 22px;                        /* respaldo */
+            height: 22px;
+            width: min(9cqw, 30px);
+            height: min(9cqw, 30px);
+            font-size: 0.8rem;                  /* respaldo */
+            font-size: min(5cqw, 1rem);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            touch-action: manipulation;
+        }
+        .stepper-btn:active { background: #1e5a1e; }
+        .stepper-value {
+            font-size: 0.8rem;                  /* respaldo */
+            font-size: min(5cqw, 1rem);
+            min-width: 6cqw;
+            text-align: center;
+        }
+
+        .start-button {
+            background-color: #8b0000;
+            color: #9bbc0f;
+            border: none;
+            border-radius: 8px;
+            padding: 3.5cqw 7cqw;
+            font-size: 0.7rem;                  /* respaldo */
+            font-size: min(5.5cqw, 0.85rem);
+            font-weight: bold;
+            box-shadow: 0 3px 0 #5a0000;
+            margin-top: 3cqw;
+        }
+        .start-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #5a0000;
+        }
+        /* Boton RESUME (verde) para volver a la partida en curso */
+        .resume-btn {
+            background-color: #2e7d32;
+            box-shadow: 0 3px 0 #1b4d1f;
+            margin-top: 0;
+            margin-bottom: 3cqw;
+        }
+        .resume-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #1b4d1f;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="gameboy-console">
+        <div class="screen-area">
+            <div class="screen-frame">
+                <div class="game-board-container">
+                    <div class="game-board">
+                        <div class="board-cells" id="boardCells"></div>
+                    </div>
+                    <div class="lcd-overlay"></div>
+
+                    <!-- Pantalla de opciones / inicio (Type B) -->
+                    <div class="overlay active" id="optionsOverlay">
+                        <div class="overlay-title" id="optionsTitle">TETRIS</div>
+                        <div class="overlay-subtext">TYPE B &mdash; 25 LINES</div>
+                        <div class="selector-row">
+                            <span class="selector-label">LEVEL</span>
+                            <div class="stepper">
+                                <button class="stepper-btn" id="levelDown" aria-label="Bajar nivel">&lt;</button>
+                                <span class="stepper-value" id="levelValue">0</span>
+                                <button class="stepper-btn" id="levelUp" aria-label="Subir nivel">&gt;</button>
+                            </div>
+                        </div>
+                        <div class="selector-row">
+                            <span class="selector-label">HIGH</span>
+                            <div class="stepper">
+                                <button class="stepper-btn" id="highDown" aria-label="Bajar altura">&lt;</button>
+                                <span class="stepper-value" id="highValue">0</span>
+                                <button class="stepper-btn" id="highUp" aria-label="Subir altura">&gt;</button>
+                            </div>
+                        </div>
+                        <button class="start-button resume-btn hidden" id="resumeButton" aria-label="Volver a la partida">RESUME</button>
+                        <button class="start-button" id="startButton" aria-label="Empezar juego">START</button>
+                    </div>
+
+                    <!-- Pantalla de pausa -->
+                    <div class="overlay" id="pauseOverlay">
+                        <div class="overlay-title">PAUSED</div>
+                        <div class="overlay-subtext">PAUSE = RESUME</div>
+                    </div>
+
+                    <!-- Pantalla de fin de juego -->
+                    <div class="overlay" id="gameOverOverlay">
+                        <div class="overlay-title" id="gameOverText">GAME OVER</div>
+                        <div class="overlay-subtext" id="gameOverSubtext">PRESS MENU</div>
+                        <div class="overlay-score" id="gameOverScore"></div>
+                        <button class="start-button" id="restartButton" aria-label="Volver al menu">MENU</button>
+                    </div>
+                </div>
+            </div>
+            <div class="nintendo-logo">Nintendo&reg;</div>
+        </div>
+
+        <div class="controls-section">
+            <div class="info-panel">
+                <div class="panel">
+                    <div class="panel-title">NEXT</div>
+                    <div class="next-piece" id="nextPiece"></div>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">INFO</div>
+                    <div class="info-item"><span>LINES:</span><span class="info-value" id="lines">25</span></div>
+                    <div class="info-item"><span>LEVEL:</span><span class="info-value" id="level">0</span></div>
+                    <div class="info-item"><span>SCORE:</span><span class="info-value" id="score">0</span></div>
+                </div>
+            </div>
+
+            <div class="main-controls">
+                <div class="d-pad-container">
+                    <div class="d-pad-base"></div>
+                    <div class="d-pad-btn" id="dpad-up" aria-label="Soltar hasta abajo">&#9650;</div>
+                    <div class="d-pad-btn" id="dpad-down" aria-label="Bajar un espacio">&#9660;</div>
+                    <div class="d-pad-btn" id="dpad-left" aria-label="Mover izquierda">&#9668;</div>
+                    <div class="d-pad-btn" id="dpad-right" aria-label="Mover derecha">&#9658;</div>
+                    <div id="dpad-center"></div>
+                </div>
+                <div class="action-buttons-container">
+                    <button class="gameboy-btn" id="btn-rotate" aria-label="Rotar horario">A</button>
+                    <button class="gameboy-btn" id="btn-rotate-counter" aria-label="Rotar antihorario">B</button>
+                </div>
+            </div>
+
+            <div class="system-buttons">
+                <button class="system-btn" id="mobilePause" aria-label="Pausar juego">PAUSE</button>
+                <button class="system-btn" id="mobileRestart" aria-label="Abrir menu">MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===================== Constantes =====================
+        const COLS = 10;
+        const ROWS = 20;
+        const EMPTY = 'empty';
+        const TARGET_LINES = 25;           // Type B: ganar al limpiar 25 lineas
+        const PIECE_COLORS = 'IJLOSTZ';
+
+        // Velocidad de caida por nivel (ms/fila), curva estilo NES niveles 0-9
+        const GRAVITY_MS = [800, 717, 633, 550, 467, 383, 300, 217, 133, 100];
+
+        // DAS (auto-repeticion al mantener)
+        const DAS_DELAY = 170;             // retardo antes de repetir
+        const DAS_INTERVAL = 50;           // repeticion horizontal
+        const SOFT_INTERVAL = 40;          // repeticion de soft-drop
+
+        // Formas base de cada tetromino
+        const TETROMINOS = {
+            I: { shape: [[1,1,1,1]], color: 'I' },
+            J: { shape: [[1,0,0],[1,1,1]], color: 'J' },
+            L: { shape: [[0,0,1],[1,1,1]], color: 'L' },
+            O: { shape: [[1,1],[1,1]], color: 'O' },
+            S: { shape: [[0,1,1],[1,1,0]], color: 'S' },
+            T: { shape: [[0,1,0],[1,1,1]], color: 'T' },
+            Z: { shape: [[1,1,0],[0,1,1]], color: 'Z' }
+        };
+
+        // ===================== Estado =====================
+        let board = [];
+        let currentPiece = null;
+        let nextPiece = null;
+        let bag = [];
+        let gameOver = true;
+        let isPaused = false;
+        let optionsOpen = true;
+        let started = false;                // hay una partida en curso (aunque este en el menu)
+        let score = 0;
+        let totalLines = 0;                 // lineas limpiadas
+        let startLevel = 0;                 // nivel elegido (fijo en Type B)
+        let startHigh = 0;                  // altura de basura elegida (0-5)
+        let gravity = GRAVITY_MS[0];
+        let dropAcc = 0;
+        let lastTime = 0;
+
+        // ===================== DOM =====================
+        const boardCells = document.getElementById('boardCells');
+        const nextPieceElement = document.getElementById('nextPiece');
+        const linesElement = document.getElementById('lines');
+        const levelElement = document.getElementById('level');
+        const scoreElement = document.getElementById('score');
+
+        const optionsOverlay = document.getElementById('optionsOverlay');
+        const pauseOverlay = document.getElementById('pauseOverlay');
+        const gameOverOverlay = document.getElementById('gameOverOverlay');
+        const gameOverText = document.getElementById('gameOverText');
+        const gameOverSubtext = document.getElementById('gameOverSubtext');
+        const gameOverScore = document.getElementById('gameOverScore');
+
+        const levelValueEl = document.getElementById('levelValue');
+        const highValueEl = document.getElementById('highValue');
+
+        // Celdas del tablero (se crean UNA sola vez para rendimiento)
+        let cells = [];
+        // Celdas del preview NEXT (4x4, tambien creadas una vez)
+        let nextCells = [];
+
+        // ===================== Utilidades =====================
+        function deepCopyShape(shape) {
+            return shape.map(row => row.slice());
+        }
+
+        function emptyRow() {
+            return Array.from({ length: COLS }, () => EMPTY);
+        }
+
+        // Recorre los bloques activos de una forma en una posicion dada
+        function forEachBlock(shape, row, col, fn) {
+            for (let r = 0; r < shape.length; r++) {
+                for (let c = 0; c < shape[r].length; c++) {
+                    if (shape[r][c]) {
+                        const br = row + r;
+                        const bc = col + c;
+                        fn(br, bc);
+                    }
+                }
+            }
+        }
+
+        // Colision generica para una forma/posicion arbitraria
+        function collides(shape, row, col) {
+            for (let r = 0; r < shape.length; r++) {
+                for (let c = 0; c < shape[r].length; c++) {
+                    if (shape[r][c]) {
+                        const br = row + r;
+                        const bc = col + c;
+                        if (bc < 0 || bc >= COLS || br >= ROWS) return true;
+                        if (br >= 0 && board[br][bc] !== EMPTY) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // ===================== 7-bag =====================
+        function refillBag() {
+            const pieces = PIECE_COLORS.split('');
+            for (let i = pieces.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pieces[i], pieces[j]] = [pieces[j], pieces[i]];
+            }
+            bag = pieces;
+        }
+
+        function newPiece() {
+            if (bag.length === 0) refillBag();
+            const type = bag.pop();
+            return {
+                shape: deepCopyShape(TETROMINOS[type].shape),
+                color: TETROMINOS[type].color,
+                row: 0,
+                col: Math.floor(COLS / 2) - Math.floor(TETROMINOS[type].shape[0].length / 2)
+            };
+        }
+
+        // ===================== Tablero (crear celdas una vez) =====================
+        function buildBoardCells() {
+            boardCells.innerHTML = '';
+            cells = [];
+            for (let i = 0; i < ROWS * COLS; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                boardCells.appendChild(cell);
+                cells.push(cell);
+            }
+        }
+
+        function buildNextCells() {
+            nextPieceElement.innerHTML = '';
+            nextCells = [];
+            for (let i = 0; i < 16; i++) {
+                const cell = document.createElement('div');
+                nextPieceElement.appendChild(cell);
+                nextCells.push(cell);
+            }
+        }
+
+        function createBoard() {
+            board = Array.from({ length: ROWS }, () => emptyRow());
+        }
+
+        // Rellena la basura inicial de Type B (HIGH * 2 filas)
+        function fillGarbage(rows) {
+            const colors = PIECE_COLORS;
+            for (let r = ROWS - rows; r < ROWS; r++) {
+                if (r < 0) continue;
+                let filled = 0;
+                for (let c = 0; c < COLS; c++) {
+                    if (Math.random() < 0.55) {
+                        board[r][c] = colors[Math.floor(Math.random() * colors.length)];
+                        filled++;
+                    }
+                }
+                // Garantiza al menos un hueco (para que la fila no se limpie sola)
+                let holes = [];
+                for (let c = 0; c < COLS; c++) if (board[r][c] === EMPTY) holes.push(c);
+                if (holes.length === 0) {
+                    board[r][Math.floor(Math.random() * COLS)] = EMPTY;
+                }
+                // Garantiza al menos un bloque
+                if (filled === 0) {
+                    board[r][Math.floor(Math.random() * COLS)] = colors[Math.floor(Math.random() * colors.length)];
+                }
+            }
+        }
+
+        // ===================== Render =====================
+        // Un solo draw() que compone: tablero fijo + ghost + pieza activa
+        function draw() {
+            // Base: tablero fijo
+            for (let i = 0; i < cells.length; i++) {
+                const r = (i / COLS) | 0;
+                const c = i % COLS;
+                const v = board[r][c];
+                cells[i].className = (v !== EMPTY) ? ('cell tetromino ' + v) : 'cell';
+            }
+
+            if (currentPiece && !gameOver) {
+                // Ghost (donde caeria la pieza)
+                const gr = getGhostRow();
+                forEachBlock(currentPiece.shape, gr, currentPiece.col, (r, c) => {
+                    if (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === EMPTY) {
+                        cells[r * COLS + c].className = 'cell ghost ' + currentPiece.color;
+                    }
+                });
+                // Pieza activa (sobrescribe al ghost)
+                forEachBlock(currentPiece.shape, currentPiece.row, currentPiece.col, (r, c) => {
+                    if (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+                        cells[r * COLS + c].className = 'cell tetromino ' + currentPiece.color;
+                    }
+                });
+            }
+        }
+
+        function drawNext() {
+            for (let i = 0; i < nextCells.length; i++) nextCells[i].className = '';
+            if (!nextPiece) return;
+            const shape = nextPiece.shape;
+            // Centrar en la rejilla 4x4
+            const offR = Math.floor((4 - shape.length) / 2);
+            const offC = Math.floor((4 - shape[0].length) / 2);
+            for (let r = 0; r < shape.length; r++) {
+                for (let c = 0; c < shape[r].length; c++) {
+                    if (shape[r][c]) {
+                        const idx = (r + offR) * 4 + (c + offC);
+                        if (idx >= 0 && idx < 16) {
+                            nextCells[idx].className = 'tetromino ' + nextPiece.color;
+                        }
+                    }
+                }
+            }
+        }
+
+        function getGhostRow() {
+            let r = currentPiece.row;
+            while (!collides(currentPiece.shape, r + 1, currentPiece.col)) r++;
+            return r;
+        }
+
+        // ===================== HUD =====================
+        function updateHUD() {
+            const remaining = Math.max(0, TARGET_LINES - totalLines);
+            linesElement.textContent = remaining;
+            levelElement.textContent = startLevel;   // fijo en Type B
+            scoreElement.textContent = score;
+        }
+
+        function addScore(points) {
+            score = Math.min(999999, score + points);
+            scoreElement.textContent = score;
+        }
+
+        // ===================== Movimiento =====================
+        function moveLeft() {
+            if (!currentPiece || gameOver || isPaused) return;
+            if (!collides(currentPiece.shape, currentPiece.row, currentPiece.col - 1)) {
+                currentPiece.col--;
+                draw();
+            }
+        }
+
+        function moveRight() {
+            if (!currentPiece || gameOver || isPaused) return;
+            if (!collides(currentPiece.shape, currentPiece.row, currentPiece.col + 1)) {
+                currentPiece.col++;
+                draw();
+            }
+        }
+
+        // stepDown(true) = soft drop del jugador (suma puntos); false = gravedad
+        function stepDown(isSoft) {
+            if (!currentPiece || gameOver || isPaused) return;
+            if (collides(currentPiece.shape, currentPiece.row + 1, currentPiece.col)) {
+                lockPiece();
+            } else {
+                currentPiece.row++;
+                if (isSoft) addScore(1);
+                draw();
+            }
+            dropAcc = 0;
+        }
+
+        function hardDrop() {
+            if (!currentPiece || gameOver || isPaused) return;
+            let dist = 0;
+            while (!collides(currentPiece.shape, currentPiece.row + 1, currentPiece.col)) {
+                currentPiece.row++;
+                dist++;
+            }
+            if (dist > 0) addScore(dist * 2);
+            lockPiece();
+            dropAcc = 0;
+        }
+
+        // Rotacion clasica (transposicion) + wall kick basico
+        function rotateMatrix(shape, dir) {
+            if (dir === 1) {
+                // horario
+                return shape[0].map((_, i) => shape.map(row => row[i]).reverse());
+            } else {
+                // antihorario
+                return shape[0].map((_, i) => shape.map(row => row[row.length - 1 - i]));
+            }
+        }
+
+        function tryRotate(dir) {
+            if (!currentPiece || gameOver || isPaused) return;
+            const rotated = rotateMatrix(currentPiece.shape, dir);
+            const colKicks = [0, -1, 1, -2, 2];   // empujes horizontales
+            // 1) intentar en la misma fila
+            for (const k of colKicks) {
+                if (!collides(rotated, currentPiece.row, currentPiece.col + k)) {
+                    currentPiece.shape = rotated;
+                    currentPiece.col += k;
+                    draw();
+                    return;
+                }
+            }
+            // 2) intentar subiendo una fila (floor kick simple)
+            for (const k of colKicks) {
+                if (!collides(rotated, currentPiece.row - 1, currentPiece.col + k)) {
+                    currentPiece.shape = rotated;
+                    currentPiece.row -= 1;
+                    currentPiece.col += k;
+                    draw();
+                    return;
+                }
+            }
+            // si nada funciona, no rota
+        }
+
+        // ===================== Fijar / limpiar / spawn =====================
+        function lockPiece() {
+            forEachBlock(currentPiece.shape, currentPiece.row, currentPiece.col, (r, c) => {
+                if (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+                    board[r][c] = currentPiece.color;
+                }
+            });
+            clearLines();
+            if (!gameOver) spawnPiece();
+        }
+
+        function clearLines() {
+            let cleared = 0;
+            for (let r = ROWS - 1; r >= 0; r--) {
+                if (board[r].every(v => v !== EMPTY)) {
+                    board.splice(r, 1);
+                    board.unshift(emptyRow());
+                    cleared++;
+                    r++;
+                }
+            }
+            if (cleared > 0) {
+                totalLines += cleared;
+                const linePoints = [40, 100, 300, 1200];
+                addScore(linePoints[cleared - 1] * (startLevel + 1));
+                updateHUD();
+                if (totalLines >= TARGET_LINES) {
+                    endGame(true);
+                }
+            }
+            draw();
+        }
+
+        function spawnPiece() {
+            currentPiece = nextPiece || newPiece();
+            nextPiece = newPiece();
+            currentPiece.row = 0;
+            currentPiece.col = Math.floor(COLS / 2) - Math.floor(currentPiece.shape[0].length / 2);
+            drawNext();
+            if (collides(currentPiece.shape, currentPiece.row, currentPiece.col)) {
+                endGame(false);
+                return;
+            }
+            draw();
+        }
+
+        // ===================== Flujo de juego =====================
+        function startGame() {
+            optionsOpen = false;
+            gameOver = false;
+            isPaused = false;
+            started = true;
+            score = 0;
+            totalLines = 0;
+            gravity = GRAVITY_MS[startLevel];
+            dropAcc = 0;
+
+            createBoard();
+            fillGarbage(startHigh * 2);
+
+            bag = [];
+            nextPiece = newPiece();
+            spawnPiece();
+
+            updateHUD();
+            hideOverlay(optionsOverlay);
+            hideOverlay(gameOverOverlay);
+            hideOverlay(pauseOverlay);
+        }
+
+        function endGame(isWin) {
+            gameOver = true;
+            started = false;
+            currentPiece = null;
+            gameOverText.textContent = isWin ? 'YOU WIN!' : 'GAME OVER';
+            gameOverSubtext.textContent = isWin ? '25 LINES CLEARED' : 'PRESS MENU';
+            gameOverScore.textContent = 'SCORE: ' + score;
+            showOverlay(gameOverOverlay);
+        }
+
+        function togglePause() {
+            if (gameOver || optionsOpen) return;
+            isPaused = !isPaused;
+            if (isPaused) {
+                showOverlay(pauseOverlay);
+            } else {
+                hideOverlay(pauseOverlay);
+                lastTime = performance.now();
+                dropAcc = 0;
+            }
+        }
+
+        // Abre el menu SIN destruir la partida en curso.
+        function openMenu() {
+            optionsOpen = true;
+            isPaused = false;
+            hideOverlay(gameOverOverlay);
+            hideOverlay(pauseOverlay);
+
+            const resumable = started && !gameOver;   // hay partida a la que volver
+            if (resumable) {
+                optionsTitle.textContent = 'PAUSED';
+                resumeButton.classList.remove('hidden');
+                startButton.textContent = 'NEW GAME';
+            } else {
+                optionsTitle.textContent = 'TETRIS';
+                resumeButton.classList.add('hidden');
+                startButton.textContent = 'START';
+            }
+            showOverlay(optionsOverlay);
+        }
+
+        // Vuelve a la partida en curso desde el menu.
+        function resumeGame() {
+            if (!started || gameOver) return;
+            optionsOpen = false;
+            isPaused = false;
+            hideOverlay(optionsOverlay);
+            lastTime = performance.now();
+            dropAcc = 0;
+            draw();
+        }
+
+        function showOverlay(el) { el.classList.add('active'); }
+        function hideOverlay(el) { el.classList.remove('active'); }
+
+        // ===================== Bucle principal (rAF, independiente de FPS) =====================
+        function loop(t) {
+            requestAnimationFrame(loop);
+            if (gameOver || isPaused || optionsOpen) {
+                lastTime = t;
+                return;
+            }
+            const dt = t - lastTime;
+            lastTime = t;
+            dropAcc += dt;
+            if (dropAcc >= gravity) {
+                dropAcc -= gravity;
+                stepDown(false);
+            }
+        }
+
+        // ===================== Controles =====================
+        // Mantener presionado con auto-repeticion (DAS)
+        function bindHold(el, action, delay, interval) {
+            let dasTimer = null;
+            let repTimer = null;
+            const stop = () => {
+                if (dasTimer) { clearTimeout(dasTimer); dasTimer = null; }
+                if (repTimer) { clearInterval(repTimer); repTimer = null; }
+            };
+            const start = (e) => {
+                e.preventDefault();
+                stop();
+                action();
+                dasTimer = setTimeout(() => {
+                    repTimer = setInterval(action, interval);
+                }, delay);
+            };
+            el.addEventListener('pointerdown', start);
+            el.addEventListener('pointerup', stop);
+            el.addEventListener('pointerleave', stop);
+            el.addEventListener('pointercancel', stop);
+        }
+
+        // Pulsacion simple para controles de JUEGO (respuesta inmediata)
+        function bindTap(el, action) {
+            el.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                action();
+            });
+        }
+
+        // Pulsacion para botones de INTERFAZ (menu, pausa, start).
+        // 'click' es lo mas fiable en moviles/iOS y no necesita respuesta instantanea.
+        function bindClick(el, action) {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                action();
+            });
+        }
+
+        const dpadUp = document.getElementById('dpad-up');
+        const dpadDown = document.getElementById('dpad-down');
+        const dpadLeft = document.getElementById('dpad-left');
+        const dpadRight = document.getElementById('dpad-right');
+        const btnRotate = document.getElementById('btn-rotate');
+        const btnRotateCounter = document.getElementById('btn-rotate-counter');
+        const mobilePause = document.getElementById('mobilePause');
+        const mobileRestart = document.getElementById('mobileRestart');
+        const startButton = document.getElementById('startButton');
+        const restartButton = document.getElementById('restartButton');
+        const resumeButton = document.getElementById('resumeButton');
+        const optionsTitle = document.getElementById('optionsTitle');
+
+        bindHold(dpadLeft, moveLeft, DAS_DELAY, DAS_INTERVAL);
+        bindHold(dpadRight, moveRight, DAS_DELAY, DAS_INTERVAL);
+        bindHold(dpadDown, () => stepDown(true), DAS_DELAY, SOFT_INTERVAL);
+        bindTap(dpadUp, hardDrop);
+        bindTap(btnRotate, () => tryRotate(1));
+        bindTap(btnRotateCounter, () => tryRotate(-1));
+        bindClick(mobilePause, togglePause);   // PAUSE = pausa en el sitio
+        bindClick(mobileRestart, openMenu);    // MENU  = abre menu (sin perder la partida)
+        bindClick(startButton, startGame);     // START / NEW GAME
+        bindClick(resumeButton, resumeGame);   // RESUME = volver a la partida
+        bindClick(restartButton, openMenu);    // desde fin de partida -> menu
+
+        // Steppers de opciones
+        function updateSelectors() {
+            levelValueEl.textContent = startLevel;
+            highValueEl.textContent = startHigh;
+        }
+        bindClick(document.getElementById('levelDown'), () => { startLevel = Math.max(0, startLevel - 1); updateSelectors(); });
+        bindClick(document.getElementById('levelUp'),   () => { startLevel = Math.min(9, startLevel + 1); updateSelectors(); });
+        bindClick(document.getElementById('highDown'),  () => { startHigh = Math.max(0, startHigh - 1); updateSelectors(); });
+        bindClick(document.getElementById('highUp'),    () => { startHigh = Math.min(5, startHigh + 1); updateSelectors(); });
+
+        // Teclado (escritorio)
+        document.addEventListener('keydown', (e) => {
+            if (optionsOpen) {
+                if (e.key === 'Enter') { e.preventDefault(); startGame(); }
+                else if (e.key === 'Escape' && started && !gameOver) { e.preventDefault(); resumeGame(); }
+                return;
+            }
+            if (gameOver) {
+                if (e.key === 'Enter') { e.preventDefault(); openMenu(); }
+                return;
+            }
+            switch (e.key) {
+                case 'ArrowLeft':  e.preventDefault(); moveLeft(); break;
+                case 'ArrowRight': e.preventDefault(); moveRight(); break;
+                case 'ArrowDown':  e.preventDefault(); stepDown(true); break;
+                case 'ArrowUp':
+                case 'x': case 'X': e.preventDefault(); tryRotate(1); break;
+                case 'z': case 'Z': e.preventDefault(); tryRotate(-1); break;
+                case ' ':          e.preventDefault(); hardDrop(); break;
+                case 'p': case 'P': togglePause(); break;
+            }
+        });
+
+        // ===================== Init =====================
+        buildBoardCells();
+        buildNextCells();
+        createBoard();
+        updateSelectors();
+        updateHUD();
+        draw();
+        drawNext();
+        requestAnimationFrame((t) => { lastTime = t; requestAnimationFrame(loop); });
+    </script>
+
+    <!-- Registro del service worker (habilita el modo sin conexion) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('sw.js')
+                    .catch(function (err) { console.log('SW no registrado:', err); });
+            });
+        }
+    </script>
+</body>
+</html>

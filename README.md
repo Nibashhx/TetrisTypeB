@@ -1,4 +1,4 @@
-# Tetris Type B — Game Boy PWA
+# Tetris Type B — Game Boy
 
 Un clon de Tetris con estética de Game Boy, centrado en el modo **Type B**, empaquetado como **PWA**: se instala como app y funciona **sin conexión**. Todo en un único archivo HTML, sin dependencias ni servidores.
 
